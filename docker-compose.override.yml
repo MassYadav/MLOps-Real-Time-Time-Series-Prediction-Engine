@@ -5,7 +5,7 @@ services:
   # MLflow tracking server
   mlflow:
     image: python:3.11-slim
-    platform: linux/arm64
+    platform: linux/amd64
     command: >
       bash -c "pip install mlflow==2.9.2 psycopg2-binary boto3 && 
                export MLFLOW_S3_ENDPOINT_URL=http://minio:9000 &&
@@ -31,7 +31,7 @@ services:
   # PostgreSQL for MLflow
   mlflow-db:
     image: postgres:16-alpine
-    platform: linux/arm64
+    platform: linux/amd64
     environment:
       POSTGRES_USER: mlflow
       POSTGRES_PASSWORD: mlflow
@@ -50,7 +50,7 @@ services:
   # MinIO for S3-compatible storage
   minio:
     image: minio/minio:latest
-    platform: linux/arm64
+    platform: linux/amd64
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: minioadmin
@@ -73,7 +73,7 @@ services:
   # Create MLflow bucket in MinIO
   minio-mc:
     image: minio/mc:latest
-    platform: linux/arm64
+    platform: linux/amd64
     depends_on:
       - minio
     entrypoint: >
@@ -88,7 +88,7 @@ services:
   # Add Redis to the Airflow network for Celery if needed
   redis:
     image: redis:7-alpine
-    platform: linux/arm64
+    platform: linux/amd64
     expose:
       - 6379
     healthcheck:
@@ -101,7 +101,7 @@ services:
   # Streamlit UI for model inference
   streamlit-ui:
     image: python:3.11-slim
-    platform: linux/arm64
+    platform: linux/amd64
     working_dir: /app
     command: >
       bash -c "
